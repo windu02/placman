@@ -43,6 +43,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.0'
 end
 
+gem 'figaro'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
