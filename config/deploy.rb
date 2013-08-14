@@ -1,3 +1,11 @@
+ENV['APP_NAME'] = "PLACMAN"
+ENV['APP_GIT_REPO'] = "git@github.com:windu02/placman.git"
+ENV['DEPLOY_WEB_URL'] = "placman.christianbrel.fr"
+ENV['DEPLOY_SERVER_FOLDER'] = "/var/www/placman"
+ENV['DEPLOY_SERVER_USER'] = "brel"
+ENV['DEPLOY_RAILS_ENV'] = "production"
+ENV['DEPLOY_GIT_BRANCH'] = "develop" # master
+
 set :application, ENV['APP_NAME']
 set :repository,  ENV['APP_GIT_REPO']
 
@@ -5,7 +13,7 @@ set :repository,  ENV['APP_GIT_REPO']
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 set :deploy_to, ENV['DEPLOY_SERVER_FOLDER']
 set :scm, :git
-set :branch, "master"
+set :branch, ENV['DEPLOY_GIT_BRANCH']
 set :user, ENV['DEPLOY_SERVER_USER']
 set :use_sudo, false
 set :rails_env, ENV['DEPLOY_RAILS_ENV']
@@ -28,10 +36,14 @@ server ENV['DEPLOY_WEB_URL'], :app, :web, :db, :primary => true
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
+  task :copy_config_files do
+    transfer :up, "config/database.yml", "#{shared_path}/database.yml", :via => :scp
+    transfer :up, "config/application.yml", "#{shared_path}/application.yml", :via => :scp
+  end
   desc "Symlink shared config files"
   task :symlink_config_files do
-      run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/database.yml #{ current_path }/config/database.yml"
-      run "#{ try_sudo } ln -s #{ deploy_to }/shared/config/application.yml #{ current_path }/config/application.yml"
+      run "#{ try_sudo } ln -s #{shared_path}/database.yml #{ current_path }/config/database.yml"
+      run "#{ try_sudo } ln -s #{shared_path}/application.yml #{ current_path }/config/application.yml"
   end
   task :start do ; end
   task :stop do ; end
@@ -40,6 +52,7 @@ namespace :deploy do
   end
 end
 
+after "deploy", "deploy:copy_config_files"
 after "deploy", "deploy:symlink_config_files"
 after "deploy", "deploy:restart"
 after "deploy", "deploy:cleanup"
