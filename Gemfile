@@ -45,6 +45,10 @@ end
 
 gem 'figaro'
 
+group :development do
+  gem 'capistrano'
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
