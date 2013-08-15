@@ -1,10 +1,10 @@
 ENV['APP_NAME'] = "PLACMAN"
 ENV['APP_GIT_REPO'] = "git@github.com:windu02/placman.git"
 ENV['DEPLOY_WEB_URL'] = "placman.christianbrel.fr"
-ENV['DEPLOY_SERVER_FOLDER'] = "/var/www/placman"
+ENV['DEPLOY_SERVER_FOLDER'] = "/home/brel/placman"
 ENV['DEPLOY_SERVER_USER'] = "brel"
 ENV['DEPLOY_RAILS_ENV'] = "production"
-ENV['DEPLOY_GIT_BRANCH'] = "develop" # master
+ENV['DEPLOY_GIT_BRANCH'] = "develop" # master develop
 
 set :application, ENV['APP_NAME']
 set :repository,  ENV['APP_GIT_REPO']
@@ -50,14 +50,6 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
-  namespace :bundle do
-    task :install do
-      run "bundle install"
-    end
-    task :geminstall do
-      run "gem install bundler"
-    end
-  end
 end
 
 set :rvm_type, :user    # :user is the default
@@ -70,9 +62,6 @@ require "bundler/capistrano"
 
 before 'deploy:setup', 'rvm:install_rvm'
 before 'deploy:setup', 'rvm:install_ruby'
-
-#before "deploy:assets:precompile", "deploy:bundle:geminstall"
-#before "deploy:assets:precompile", "deploy:bundle:install"
 
 before 'deploy:restart', 'deploy:migrate'
 
