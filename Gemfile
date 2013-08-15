@@ -47,6 +47,11 @@ gem 'figaro'
 
 group :development do
   gem 'capistrano'
+  gem 'rvm-capistrano'
+end
+
+group :production do
+  gem 'mysql2'
 end
 
 # Use ActiveModel has_secure_password

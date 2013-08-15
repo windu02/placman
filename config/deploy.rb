@@ -42,17 +42,42 @@ namespace :deploy do
   end
   desc "Symlink shared config files"
   task :symlink_config_files do
-      run "#{ try_sudo } ln -s #{shared_path}/database.yml #{ current_path }/config/database.yml"
-      run "#{ try_sudo } ln -s #{shared_path}/application.yml #{ current_path }/config/application.yml"
+      run "#{ try_sudo } ln -s #{shared_path}/database.yml #{ release_path }/config/database.yml"
+      run "#{ try_sudo } ln -s #{shared_path}/application.yml #{ release_path }/config/application.yml"
   end
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
+  namespace :bundle do
+    task :install do
+      run "bundle install"
+    end
+    task :geminstall do
+      run "gem install bundler"
+    end
+  end
 end
 
-after "deploy", "deploy:copy_config_files"
-after "deploy", "deploy:symlink_config_files"
+set :rvm_type, :user    # :user is the default
+set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"") # Read from local system
+set :rvm_install_type, :stable # before rvm 1.11.0 gets released
+set :bundle_without, [:development]
+
+require "rvm/capistrano"  # Load RVM's capistrano plugin.
+require "bundler/capistrano"
+
+before 'deploy:setup', 'rvm:install_rvm'
+before 'deploy:setup', 'rvm:install_ruby'
+
+#before "deploy:assets:precompile", "deploy:bundle:geminstall"
+#before "deploy:assets:precompile", "deploy:bundle:install"
+
+before 'deploy:restart', 'deploy:migrate'
+
+before "deploy:assets:precompile", "deploy:copy_config_files"
+before "deploy:assets:precompile", "deploy:symlink_config_files"
+
 after "deploy", "deploy:restart"
 after "deploy", "deploy:cleanup"
