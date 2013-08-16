@@ -7,7 +7,7 @@ mysql: &mysql
   adapter: mysql2
   username: root
   password:
-  database: travis_<%= Rails.env %>
+  database: placman_<%= Rails.env %>
 
 defaults: &defaults
   pool: 5
