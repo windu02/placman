@@ -37,10 +37,16 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'bootstrap-sass', '2.3.2.0'
+gem 'bootstrap-sass', '2.3.2.1'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.0'
+  gem 'rspec-rails'
+  gem "factory_girl_rails"
+end
+
+group :test do
+  gem "database_cleaner"
+  gem "email_spec"
 end
 
 gem 'figaro'
@@ -53,6 +59,8 @@ end
 group :production do
   gem 'mysql2'
 end
+
+#gem 'devise'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
