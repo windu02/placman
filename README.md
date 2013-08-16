@@ -6,9 +6,9 @@ More info later.
 
 ### Current build
 
-[![Build Status](https://secure.travis-ci.org/windu02/placman.png?branch=master)](https://travis-ci.org/windu02/placman)
-
 Version 0.1: in dev status and test status
+
+[![Build Status](https://travis-ci.org/windu02/placman.png?branch=develop)](https://travis-ci.org/windu02/placman)
 
 ### Dependencies status
 
