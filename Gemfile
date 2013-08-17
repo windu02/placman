@@ -31,7 +31,7 @@ gem 'figaro'
 
 gem 'bootstrap-sass', '2.3.2.1'
 
-#gem 'devise'
+gem 'devise'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -54,7 +54,7 @@ group :development do
   gem 'capistrano'
   gem 'rvm-capistrano'
   gem 'better_errors'
-  gem 'binding_of_caller', :platforms=>[:mri_19, :rbx]
+  gem 'binding_of_caller'
   gem 'quiet_assets'
   gem 'guard'
   gem 'guard-livereload'
