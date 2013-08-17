@@ -31,5 +31,7 @@ module Placman
       g.javascripts = false
       g.helper = false
     end
+    
+    config.quiet_assets = true # set to false to re-enable the logging of the asset pipeline messages
   end
 end
