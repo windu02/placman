@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: material_categories
+#
+#  id                   :integer          not null, primary key
+#  created_at           :datetime
+#  updated_at           :datetime
+#  name                 :string(255)
+#  material_category_id :integer
+#
+
 require 'spec_helper'
 
 describe MaterialCategory do
@@ -26,10 +37,47 @@ describe MaterialCategory do
     empty_material_category.should respond_to(:addCategory)
   end
   
-  it "should have empty materials list and empty categories list" do
+  it "should have 'addMaterial!' method" do
+    empty_material_category = MaterialCategory.new(@attr)
+    empty_material_category.should respond_to(:addMaterial!)
+  end
+  
+  it "should have 'addCategory!' method" do
+    empty_material_category = MaterialCategory.new(@attr)
+    empty_material_category.should respond_to(:addCategory!)
+  end
+  
+  it "should have 'setParentCategory' method" do
+    empty_material_category = MaterialCategory.new(@attr)
+    empty_material_category.should respond_to(:setParentCategory)
+  end
+  
+  it "should have 'setParentCategory!' method" do
+    empty_material_category = MaterialCategory.new(@attr)
+    empty_material_category.should respond_to(:setParentCategory!)
+  end
+  
+  it "should have empty materials list, empty categories list and be a root category" do
     empty_material_category = MaterialCategory.new(@attr)
     empty_material_category.should be_materialsEmpty
     empty_material_category.should be_categoriesEmpty
+    empty_material_category.should be_rootCategory
+  end
+  
+  it "should accept a parent category if it has'nt already one" do
+    sub_category = MaterialCategory.new(@attr)
+    matCat = FactoryGirl.create(:material_category)
+    sub_category.setParentCategory(matCat)
+    sub_category.save
+    sub_category.material_category.should be matCat
+  end
+  
+  it "should reject a parent category if it has already one" do
+    sub_category = MaterialCategory.new(@attr)
+    matCat = FactoryGirl.create(:material_category)
+    sub_category.setParentCategory(matCat)
+    sub_category.save
+    expect {sub_category.setParentCategory(FactoryGirl.create(:material_category))}.to raise_error
   end
   
   it "should accept new Material if empty" do
@@ -45,7 +93,7 @@ describe MaterialCategory do
     matCat = FactoryGirl.create(:material_category)
     empty_material_category.addCategory(matCat)
     empty_material_category.save
-    empty_material_category.categories.should include(matCat)
+    empty_material_category.material_categories.should include(matCat)
   end
   
   it "should reject new Category if already contains materials" do

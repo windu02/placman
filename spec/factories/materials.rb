@@ -3,6 +3,6 @@
 FactoryGirl.define do
   factory :material do
     denomination "plaque de placo"
-    unit "unit"
+    unit "Unit"
   end
 end

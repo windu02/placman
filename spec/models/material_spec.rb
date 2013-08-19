@@ -1,10 +1,22 @@
+# == Schema Information
+#
+# Table name: materials
+#
+#  id                   :integer          not null, primary key
+#  created_at           :datetime
+#  updated_at           :datetime
+#  denomination         :string(255)
+#  unit                 :string(255)      default("Unit")
+#  material_category_id :integer
+#
+
 require 'spec_helper'
 
 describe Material do
   before(:each) do
     @attr = {
       :denomination => "plaque de placo",
-      :unit => "unit"
+      :unit => "Unit"
     }
   end
 
@@ -15,6 +27,11 @@ describe Material do
   it "should require a denomination" do
     no_denomination_material = Material.new(@attr.merge(:denomination => ""))
     no_denomination_material.should_not be_valid
+  end
+  
+  it "should require an unit" do
+    no_unit_material = Material.new(@attr.merge(:unit => ""))
+    no_unit_material.should_not be_valid
   end
 
   it "should accept any allowed 'units'" do
