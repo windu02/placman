@@ -1,0 +1,19 @@
+	<div class="control-group<% if @material.errors[:denomination] and ! @material.errors[:denomination].empty? %> error<% end %>">
+		<%= f.label :denomination, t('MaterialDenomination') + " *", :class => "control-label" %>
+		<div class="controls">
+			<%= f.text_field :denomination, :class => "input-large" %>
+			<% if @material.errors[:denomination] and ! @material.errors[:denomination].empty? %>
+				<span class="help-inline"><%= @material.errors[:denomination].join(', ') %></span>
+			<% end %>
+		</div>
+	</div>
+	
+	<div class="control-group<% if @material.errors[:unit] and ! @material.errors[:unit].empty? %> error<% end %>">
+		<%= f.label :unit, t('MaterialUnit') + " *", :class => "control-label" %>
+		<div class="controls">
+			<%= f.select :unit, Material::UNIT_OPTIONS.map {|u| [u.html_safe,u]} %>
+			<% if @material.errors[:unit] and ! @material.errors[:unit].empty? %>
+				<span class="help-inline"><%= @material.errors[:unit].join(', ') %></span>
+			<% end %>
+		</div>
+	</div>

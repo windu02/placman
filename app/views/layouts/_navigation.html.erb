@@ -6,6 +6,7 @@
 <a class="brand" href="#">Placman</a>
 <div class="nav-collapse collapse">
 	<ul class="nav">
-		<li class="active"><%= link_to 'Home', root_path %></li>
+		<li <% if @homeMenu %>class="active"<% end -%>><%= link_to t('Home'), root_path %></li>
+		<li <% if @material_categoriesMenu %>class="active"<% end -%>><%= link_to t('Materials'), material_categories_path %></li>
 	</ul>
 </div><!--/.nav-collapse -->

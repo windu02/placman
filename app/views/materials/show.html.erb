@@ -1,0 +1,11 @@
+<h1><%= t('MaterialDetails') %></h1>
+
+<h2>
+	<%= t('MaterialDenomination') %> : <%= @material.denomination %> ( <%= @material.unit.html_safe %> )
+	<%= link_to '<i class="icon-pencil icon-white"></i> '.html_safe, edit_material_category_material_path(@material.material_category, @material), class: "btn btn-info btn-mini" %>
+	<%= link_to '<i class="icon-remove icon-white"></i> '.html_safe, material_category_material_path(@material.material_category, @material), method: :delete, data: { confirm: t('ConfirmDelete?') }, class: "btn btn-danger btn-mini" %>
+</h2>
+
+<div class="alert">
+	<%= t('ParentCategory') + ' : ' %><%= link_to @material.material_category.name, material_category_path(@material.material_category) %>
+</div>

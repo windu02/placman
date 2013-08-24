@@ -1,0 +1,40 @@
+<table class="table table-striped">
+	<thead>
+	<tr>
+	  <th>#</th>
+	  <th><%= t('MaterialCategoryName') %></th>
+	  <th><%= t('Subcategories') %> (sc) <%= t('Or') %> <%= t('Materials') %> (m)</th>
+	</tr>
+	</thead>
+	<tbody>
+		<% @material_categories.each do |mc| %>
+		<tr>
+			<td><%= mc.id %></td>
+			<td><%= link_to mc.name, material_category_path(mc) %></td>
+			<td>
+				<% if !mc.categoriesEmpty? %>
+					<ul>
+						<% mc.material_categories.each do |smc| %>
+							<li><%= link_to '(sc) ' + smc.name, material_category_path(smc) %></li>
+						<% end %>
+					</ul>
+				<% else %>
+					<% if !mc.materialsEmpty? %>
+						<ul>
+							<% mc.materials.each do |m| %>
+								<li><%= link_to '(m) ' + m.denomination, material_category_material_path(m.material_category, m) %> ( <%= m.unit.html_safe %> )</li>
+							<% end %>
+						</ul>
+					<% else %>
+						<%= t('EmptyCategory') %>
+					<% end %>
+				<% end %>
+			</td>
+			<td>
+				<%= link_to '<i class="icon-pencil icon-white"></i> '.html_safe, edit_material_category_path(mc), class: "btn btn-info btn-mini" %>
+				<%= link_to '<i class="icon-remove icon-white"></i> '.html_safe, material_category_path(mc), method: :delete, data: { confirm: t('ConfirmDelete?') }, class: "btn btn-danger btn-mini" %>
+			</td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>

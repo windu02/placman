@@ -1,0 +1,22 @@
+<table class="table table-striped">
+	<thead>
+	<tr>
+	  <th>#</th>
+	  <th><%= t('MaterialDenomination') %></th>
+	  <th><%= t('MaterialUnit') %></th>
+	</tr>
+	</thead>
+	<tbody>
+		<% @materials.each do |m| %>
+		<tr>
+			<td><%= m.id %></td>
+			<td><%= link_to m.denomination, material_category_material_path(m.material_category, m) %></td>
+			<td><%= m.unit.html_safe %></td>
+			<td>
+				<%= link_to '<i class="icon-pencil icon-white"></i> '.html_safe, edit_material_category_material_path(m.material_category, m), class: "btn btn-info btn-mini" %>
+				<%= link_to '<i class="icon-remove icon-white"></i> '.html_safe, material_category_material_path(m.material_category, m), method: :delete, data: { confirm: t('ConfirmDelete?') }, class: "btn btn-danger btn-mini" %>
+			</td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>

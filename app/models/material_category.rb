@@ -12,10 +12,10 @@
 class MaterialCategory < ActiveRecord::Base
   validates :name, presence: true
   
-  has_many :materials
+  has_many :materials, dependent: :destroy
   
   belongs_to :material_category
-  has_many :material_categories
+  has_many :material_categories, dependent: :destroy
   
   def materialsEmpty?
     self.materials.empty?
