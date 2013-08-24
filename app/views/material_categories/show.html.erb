@@ -1,0 +1,41 @@
+<h1><%= t('MaterialCategoryDetails') %></h1>
+
+<h2>
+	<%= t('MaterialCategoryName') %> : <%= @material_category.name %>
+	<%= link_to '<i class="icon-pencil icon-white"></i> '.html_safe, edit_material_category_path(@material_category), class: "btn btn-info btn-mini" %>
+	<%= link_to '<i class="icon-remove icon-white"></i> '.html_safe, material_category_path(@material_category), method: :delete, data: { confirm: t('ConfirmDelete?') }, class: "btn btn-danger btn-mini" %>
+</h2>
+
+<div class="alert">
+	<% if @material_category.rootCategory? %>
+		<%= t('HasNoParentCategory') %>
+	<% else %>
+		<%= t('ParentCategory') + ' : ' %><%= link_to @material_category.material_category.name, material_category_path(@material_category.material_category) %>
+	<% end %>
+</div>
+
+<% if !@material_category.materialsEmpty? %>
+
+<h3>
+	<%= t('MaterialsList') %>
+	<%= link_to '<i class="icon-plus-sign icon-white"></i> '.html_safe + t("AddMaterial"), new_material_category_material_path(@material_category), class: "btn btn-info" %>
+</h3>
+
+<%= render :partial => "materials_list", :locals => { :@materials => @material_category.materials }  %>
+
+
+<% elsif !@material_category.categoriesEmpty? %>
+<h3>
+	<%= t('SubcategoriesList') %>
+	<%= link_to '<i class="icon-plus-sign icon-white"></i> '.html_safe + t("AddSubcategory"), new_material_category_path(:parentCatId => @material_category.id), class: "btn btn-info" %>
+</h3>
+
+<%= render :partial => "material_categories_list", :locals => { :@material_categories => @material_category.material_categories }  %>
+
+<% else %>
+	<div class="alert alert">
+		<%= t('EmptyMaterialCategory') %>
+	</div>
+	<%= link_to '<i class="icon-plus-sign icon-white"></i> '.html_safe + t("AddMaterial"), new_material_category_material_path(@material_category), class: "btn btn-info" %>
+	<%= link_to '<i class="icon-plus-sign icon-white"></i> '.html_safe + t("AddSubcategory"), new_material_category_path(:parentCatId => @material_category.id), class: "btn btn-primary" %>
+<% end %>

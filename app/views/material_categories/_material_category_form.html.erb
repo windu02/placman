@@ -1,0 +1,9 @@
+	<div class="control-group<% if @material_category.errors[:name] and ! @material_category.errors[:name].empty? %> error<% end %>">
+		<%= f.label :name, t('MaterialCategoryName') + " *", :class => "control-label" %>
+		<div class="controls">
+			<%= f.text_field :name, :class => "input-large" %>
+			<% if @material_category.errors[:name] and ! @material_category.errors[:name].empty? %>
+				<span class="help-inline"><%= @material_category.errors[:name].join(', ') %></span>
+			<% end %>
+		</div>
+	</div>

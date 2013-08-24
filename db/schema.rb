@@ -11,7 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130817004300) do
+ActiveRecord::Schema.define(version: 20130818232639) do
+
+  create_table "material_categories", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.integer  "material_category_id"
+  end
+
+  add_index "material_categories", ["material_category_id"], name: "index_material_categories_on_material_category_id"
+
+  create_table "materials", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "denomination"
+    t.string   "unit",                 default: "Unit"
+    t.integer  "material_category_id"
+  end
+
+  add_index "materials", ["material_category_id"], name: "index_materials_on_material_category_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

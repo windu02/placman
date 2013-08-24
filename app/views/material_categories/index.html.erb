@@ -1,0 +1,11 @@
+<div>
+  <%= link_to '<i class="icon-plus-sign icon-white"></i> '.html_safe + t("NewMaterialCategory"), new_material_category_path, class: "btn btn-primary" %>
+</div>
+
+<% if @material_categories.nil? %>
+<div class="alert alert-info">
+	<%= t('NoRecordedCategories') %>
+</div>
+<% else %>
+	<%= render :partial => "material_categories_list", :locals => { :@material_categories => @material_categories }  %>
+<% end %>
